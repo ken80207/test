@@ -1,6 +1,7 @@
-package com.example.currencylist.repository
+package com.example.currencylist.data.repository
 
 import com.example.currencylist.data.CurrencyInfo
+import com.example.currencylist.data.Resource
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.flow.Flow
@@ -84,10 +85,9 @@ class LocalDataSource @Inject constructor(
             "  }\n" +
             "]"
 
-    override fun getCurrencyInfoList(): Flow<List<CurrencyInfo>> = flow {
+    override fun getCurrencyInfoList(): Flow<Resource<List<CurrencyInfo>>> = flow {
         val currencyType = object : TypeToken<List<CurrencyInfo>>() {}.type
         val list = Gson().fromJson<List<CurrencyInfo>>(currencyInfoString, currencyType)
-        Timber.d("KenWei list=$list")
-        emit(list)
+        emit(Resource.success(list))
     }
 }

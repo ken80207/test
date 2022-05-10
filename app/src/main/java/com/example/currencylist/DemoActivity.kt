@@ -25,6 +25,22 @@ class DemoActivity : AppCompatActivity(), IItemClickListener<CurrencyInfo> {
                 updateCurrencyList?.updateList(it)
             }
         }
+        lifecycleScope.launchWhenStarted {
+            viewModel.uiState.collect { state ->
+                Timber.d("UiState=$state")
+                when (state) {
+                    DemoViewModel.UiState.InitState -> {
+                    }
+                    DemoViewModel.UiState.FailedState -> {
+                    }
+                    DemoViewModel.UiState.LoadedState -> {
+                    }
+                    DemoViewModel.UiState.LoadingState -> {
+
+                    }
+                }
+            }
+        }
         updateCurrencyList = binding.fragmentContainer.getFragment<CurrencyListFragment>()
         updateCurrencyList?.setItemClickListener(this)
     }
